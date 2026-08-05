@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-cyber-bg text-gray-100 font-sans min-h-screen overflow-x-hidden selection:bg-cyber-accent selection:text-cyber-bg;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.04) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(255, 0, 85, 0.04) 0%, transparent 40%),
+      linear-gradient(rgba(13, 16, 23, 0.95), rgba(8, 9, 10, 0.98));
+  }
+
+  /* Custom Cyberpunk Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #08090a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 240, 255, 0.3);
+    border-radius: 3px;
+    border: 1px solid rgba(0, 240, 255, 0.1);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 240, 255, 0.6);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+  }
+}
+
+/* Custom Utilities for Neon/Glassmorphism */
+.font-cyber {
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.font-sans {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.text-glow-accent {
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+}
+
+.text-glow-danger {
+  text-shadow: 0 0 8px rgba(255, 0, 85, 0.6);
+}
+
+.text-glow-success {
+  text-shadow: 0 0 8px rgba(0, 255, 102, 0.6);
+}
+
+/* Cyberpunk grid overlay */
+.cyber-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 240, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Glassmorphism card utility */
+.glass-panel {
+  background: rgba(13, 16, 23, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 240, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel:hover {
+  border-color: rgba(0, 240, 255, 0.3);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.37),
+    0 0 15px rgba(0, 240, 255, 0.1);
+}
+
+.glass-panel-danger {
+  background: rgba(20, 10, 15, 0.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 0, 85, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-panel-success {
+  background: rgba(10, 20, 15, 0.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 255, 102, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Scanner scanning beam effect */
+.scan-beam {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00f0ff, transparent);
+  box-shadow: 0 0 8px #00f0ff;
+  animation: scanLine 2.5s infinite linear;
+}
