@@ -172,14 +172,20 @@ const Dashboard = () => {
           <p className="mt-2 text-xs text-gray-400">Confirmed cyber threat targets</p>
         </GlassCard>
 
-        <GlassCard title="ACTIVE_DETECTOR" hoverGlow={true}>
-          <div className="flex items-baseline space-x-2">
-            <span className="text-xl font-bold font-cyber text-cyber-accent text-glow-accent truncate max-w-full">
-              {metrics.activeModel}
-            </span>
-          </div>
-          <p className="mt-2 text-xs text-gray-400">Active machine learning backend</p>
-        </GlassCard>
+        <Link to="/models" className="block transition-all duration-300 hover:scale-[1.02] cursor-pointer">
+          <GlassCard 
+            title="ACTIVE_DETECTOR" 
+            hoverGlow={true}
+            headerAction={<ArrowUpRight className="h-4 w-4 text-cyber-accent animate-pulse" />}
+          >
+            <div className="flex items-baseline space-x-2">
+              <span className="text-xl font-bold font-cyber text-cyber-accent text-glow-accent truncate max-w-full">
+                {metrics.activeModel}
+              </span>
+            </div>
+            <p className="mt-2 text-xs text-gray-400">Active machine learning backend</p>
+          </GlassCard>
+        </Link>
       </div>
 
       {/* Charts & Threat distribution */}
