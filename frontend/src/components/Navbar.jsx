@@ -24,7 +24,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 group">
             <Shield className="h-8 w-8 text-cyber-accent group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_8px_rgba(0,240,255,0.5)]" />
-            <span className="font-cyber text-xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyber-accent to-white group-hover:text-glow-accent transition-all duration-300">
+            <span className="font-cyber text-xl font-bold tracking-widest text-white group-hover:text-glow-accent transition-all duration-300">
               CYBER<span className="text-cyber-accent">GUARD</span>
             </span>
           </Link>
