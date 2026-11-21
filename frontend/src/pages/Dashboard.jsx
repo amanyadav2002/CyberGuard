@@ -110,6 +110,48 @@ const Dashboard = () => {
     }
   };
 
+  const deleteScan = async (scanId) => {
+    // Optimistic UI update
+    const updatedScans = scans.filter(s => s.id !== scanId && String(s.id) !== String(scanId));
+    setScans(updatedScans);
+
+    // Update localStorage fallback if present
+    const storedScans = localStorage.getItem('cg_scans');
+    if (storedScans) {
+      try {
+        const list = JSON.parse(storedScans);
+        const filtered = list.filter(s => s.id !== scanId && String(s.id) !== String(scanId));
+        localStorage.setItem('cg_scans', JSON.stringify(filtered));
+      } catch (e) {
+        console.error("Failed to update localStorage", e);
+      }
+    }
+
+    // Recalculate dashboard metrics based on remaining scans
+    const total = updatedScans.length;
+    const malicious = updatedScans.filter(s => s.result === 'Malicious' || s.score >= 50).length;
+    const safe = total - malicious;
+    setMetrics(prev => ({
+      ...prev,
+      totalScans: total,
+      maliciousCount: malicious,
+      safeCount: safe,
+      ratio: total > 0 ? parseFloat(((malicious / total) * 100).toFixed(1)) : 0
+    }));
+
+    try {
+      const response = await fetch(`http://localhost:8000/api/reports/scan/${scanId}`, {
+        method: 'DELETE',
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+      });
+      if (response.ok) {
+        fetchDashboardData();
+      }
+    } catch (err) {
+      console.warn("Backend delete failed or offline:", err);
+    }
+  };
+
   const filteredScans = scans
     .filter(scan => scan.target.toLowerCase().includes(search.toLowerCase()))
     .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
@@ -340,6 +382,7 @@ const Dashboard = () => {
                   <th className="py-3 px-4">ML_CLASSIFIER</th>
                   <th className="py-3 px-4">TIMESTAMP</th>
                   <th className="py-3 px-4">STATUS</th>
+                  <th className="py-3 px-4 text-right">ACTION</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-cyber-border/5 text-xs font-cyber">
@@ -354,7 +397,7 @@ const Dashboard = () => {
                           {scan.type}
                         </span>
                       </td>
-                      <td className="py-3 px-4 font-mono max-w-xs truncate text-gray-300">
+                      <td className="py-3 px-4 font-mono max-w-xs truncate text-gray-300" title={scan.target}>
                         {scan.target}
                       </td>
                       <td className="py-3 px-4">
@@ -382,6 +425,18 @@ const Dashboard = () => {
                             </>
                           )}
                         </div>
+                      </td>
+                      <td className="py-3 px-4 text-right">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteScan(scan.id);
+                          }}
+                          title="Delete this search record"
+                          className="p-1.5 rounded text-gray-500 hover:text-cyber-danger hover:bg-cyber-danger-dim border border-transparent hover:border-cyber-danger/30 transition-all shrink-0 cursor-pointer inline-flex items-center justify-center"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
                       </td>
                     </tr>
                   );
